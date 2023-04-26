@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('inventaris', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_barang');
+            $table->string('kategori_barang');
+            $table->integer('harga_beli');
+            $table->integer('harga_jual');
+            $table->integer('jumlah_stok');
+            $table->string('satuan');
             $table->timestamps();
         });
     }

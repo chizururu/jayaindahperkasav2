@@ -90,10 +90,10 @@
                         </div>
                         <div class="row g-3 p-2">
                             <div class="col">
-                                <label for="harga_satuan" class="form-label">Harga Satuan</label>
+                                <label for="harga_beli" class="form-label">Harga Beli</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" name="harga_satuan">
+                                <input type="text" class="form-control" name="harga_beli">
                             </div>
                             <div class="col">
                                 <label for="harga_jual" class="form-label">Harga Jual</label>

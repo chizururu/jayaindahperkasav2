@@ -35,7 +35,7 @@ class InventarisController extends Controller
             'nama_barang' => 'required',
             'kategori_barang' => 'required',
             'jumlah_stok' => 'required',
-            'harga_satuan' => 'required',
+            'harga_beli' => 'required',
             'harga_jual' => 'required',
             'satuan' => 'required',
         ]);
@@ -44,7 +44,7 @@ class InventarisController extends Controller
         $inventaris->nama_barang = $validateData['nama_barang'];
         $inventaris->kategori_barang = $validateData['kategori_barang'];
         $inventaris->jumlah_stok = $validateData['jumlah_stok'];
-        $inventaris->harga_satuan = $validateData['harga_satuan'];
+        $inventaris->harga_beli = $validateData['harga_beli'];
         $inventaris->harga_jual = $validateData['harga_jual'];
         $inventaris->satuan = $validateData['satuan'];
 

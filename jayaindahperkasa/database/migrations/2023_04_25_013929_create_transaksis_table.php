@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('nama_pelanggan');
+            $table->integer('total_harga');
         });
     }
 

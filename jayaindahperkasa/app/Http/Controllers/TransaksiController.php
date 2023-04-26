@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\detailtransaksi;
 use App\Models\inventaris;
 use App\Models\transaksi;
 use Illuminate\Http\Request;
@@ -48,6 +49,14 @@ class TransaksiController extends Controller
         $transaksi->total_harga = $validateData['total_harga'];
         $transaksi->save();
 
+        foreach ($request->input('daftarBarang') as $barang) {
+            $detailTransaksi = new detailtransaksi();
+            $detailTransaksi -> transaksi_id = $transaksi->id;
+            $detailTransaksi -> inventaris_id = $barang['idbrg'];
+            $detailTransaksi -> jumlah_barang = $barang['jumlah'];
+            $detailTransaksi -> sub_total = $barang['total'];
+            $detailTransaksi ->save();
+        }
         return redirect()->route('transaksi.index');
     }
 
