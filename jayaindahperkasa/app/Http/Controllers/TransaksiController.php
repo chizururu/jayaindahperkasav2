@@ -48,15 +48,7 @@ class TransaksiController extends Controller
         $transaksi->nama_pelanggan = $validateData['nama_pelanggan'];
         $transaksi->total_harga = $validateData['total_harga'];
         $transaksi->save();
-
-        foreach ($request->input('daftarBarang') as $barang) {
-            $detailTransaksi = new detailtransaksi();
-            $detailTransaksi -> transaksi_id = $transaksi->id;
-            $detailTransaksi -> inventaris_id = $barang['idbrg'];
-            $detailTransaksi -> jumlah_barang = $barang['jumlah'];
-            $detailTransaksi -> sub_total = $barang['total'];
-            $detailTransaksi ->save();
-        }
+        
         return redirect()->route('transaksi.index');
     }
 

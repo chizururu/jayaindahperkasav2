@@ -124,7 +124,6 @@
             document.getElementById('harga_barang').value = 0;
             document.getElementById('jumlah_barang').value = 1;
             document.getElementById('sub_harga').value = 0;
-            console.log(daftarBarang);
         }
 
         function datatabel() {
@@ -150,39 +149,14 @@
             const index = row.rowIndex -1 ;
             daftarBarang.splice(index, 1);
             row.remove();
-            console.log(daftarBarang);
         }
 
         function hitungTotalBayar() {
             var totalHarga = 0;
-
             for (var i = 0; i < daftarBarang.length; i++) {
                 totalHarga += daftarBarang[i].jumlah * daftarBarang[i].harga;
-                console.log(daftarBarang);
             }
-            console.log(totalHarga);
-
             document.getElementById('total_harga').value = totalHarga;
         }
     </script>
 @endsection
-
-
-
-
-
-
-
-
-
-
-{{--let produk = []--}}
-{{--const selectedBarang = document.querySelector('#nama_barang');--}}
-{{--selectedBarang.addEventListener('change', function () {--}}
-{{--const selectionOption = this.options[this.selectedIndex];--}}
-{{--const hargaBarang = selectionOption.getAttribute('harga-barang');--}}
-{{--const jumlah = document.getElementById('jumlah_barang').value;--}}
-{{--console.log(jumlah);--}}
-{{--document.getElementById('harga_barang').value = hargaBarang;--}}
-{{--document.getElementById('total_harga').value = hargaBarang*2;--}}
-{{--});--}}
