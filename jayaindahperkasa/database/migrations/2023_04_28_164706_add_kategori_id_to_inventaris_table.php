@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('detailtransaksis', function (Blueprint $table) {
+        Schema::table('inventaris', function (Blueprint $table) {
             //
-            $table->foreignId('inventaris_id')->after('id')
-                ->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('kategori_id')->after('id')->constrained()
+                ->onUpdate('cascade');
         });
     }
 
@@ -23,10 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('detailtransaksis', function (Blueprint $table) {
+        Schema::table('inventaris', function (Blueprint $table) {
             //
-            $table->dropForeign('detailtransaksis_inventaris_id_foreign');
-            $table->dropColumn('inventaris_id');
+            $table->dropForeign('inventaris_kategori_id_foreign');
+            $table->dropColumn('kategori_id');
         });
     }
 };

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\DetailtransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,5 +23,7 @@ Route::get('/', function () {
 
 Route::resource('/inventaris', InventarisController::class);
 Route::resource('/transaksi', TransaksiController::class);
+Route::resource('/kategori', KategoriController::class);
+Route::resource('/laporan', DetailtransaksiController::class);
 
 

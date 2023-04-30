@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\detailtransaksi;
-use App\Models\inventaris;
-use App\Models\transaksi;
+use App\Models\DetailTransaksi;
+use App\Models\Inventaris;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
@@ -20,7 +21,7 @@ class TransaksiController extends Controller
         if(!$tanggal) {
             $tanggal = date('Y-m-d');
         }
-        $transaksi = transaksi::whereDate('created_at', $tanggal)->get();
+        $transaksi = Transaksi::whereDate('created_at', $tanggal)->get();
         return view('transaksi.index', compact('transaksi', 'tanggal'));
     }
 
@@ -30,7 +31,7 @@ class TransaksiController extends Controller
     public function create()
     {
         //
-        $inventaris = inventaris::all();
+        $inventaris = Inventaris::all();
         return view('transaksi.create')->with('inventaris', $inventaris);
     }
 
@@ -39,23 +40,34 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        dd($request->all());
         $validateData = $request->validate([
             'nama_pelanggan' => 'required',
+            /*'daftar_barang' => 'required',*/
             'total_harga' => 'required',
         ]);
-        $transaksi = new transaksi();
+        $transaksi = new Transaksi();
         $transaksi->nama_pelanggan = $validateData['nama_pelanggan'];
         $transaksi->total_harga = $validateData['total_harga'];
         $transaksi->save();
-        
+
+        $transaksi_id = $transaksi->id;
+        $daftar_barang = json_decode($request->input('daftar_barang'),true);
+        foreach ($daftar_barang as $barang) {
+            $detailtransaksi = new DetailTransaksi();
+            $detailtransaksi->transaksi_id = $transaksi_id;
+            $detailtransaksi->inventaris_id = $barang['idBrg'];
+            $detailtransaksi->jumlah_barang = $barang['jumlah'];
+            $detailtransaksi->sub_total = $barang['sub'];
+            $detailtransaksi->save();
+        };
         return redirect()->route('transaksi.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(transaksi $transaksi)
+    public function show(Transaksi $transaksi)
     {
         //
     }
@@ -63,7 +75,7 @@ class TransaksiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(transaksi $transaksi)
+    public function edit(Transaksi $transaksi)
     {
         //
     }
@@ -71,7 +83,7 @@ class TransaksiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, transaksi $transaksi)
+    public function update(Request $request, Transaksi $transaksi)
     {
         //
     }
@@ -79,7 +91,7 @@ class TransaksiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(transaksi $transaksi)
+    public function destroy(Transaksi $transaksi)
     {
         //
     }

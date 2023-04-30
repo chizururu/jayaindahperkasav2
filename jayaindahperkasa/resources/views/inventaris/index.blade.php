@@ -32,7 +32,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $data->nama_barang }}</td>
-                                    <td>{{ $data->kategori_barang }}</td>
+                                    <td>{{ $data->kategori->kategori }}</td>
                                     <td>{{ $data->jumlah_stok }}</td>
                                     <td>{{ $data->harga_beli }}</td>
                                     <td>{{ $data->harga_jual }}</td>
@@ -68,10 +68,15 @@
                         </div>
                         <div class="row g-3 p-2">
                             <div class="col col-sm-3">
-                                <label for="kategori_barang" class="form-label">Kategori</label>
+                                <label for="kategori_id" class="form-label">Kategori</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" name="kategori_barang">
+                                <select class="form-select" name="kategori_id">
+                                    <option value="">Pilih Barang</option>
+                                    @foreach($kategoris as $kate)
+                                        <option value="{{ $kate->id }}">{{ $kate->kategori }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="row g-3 p-2">

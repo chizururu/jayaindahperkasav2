@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\inventaris;
+use App\Models\Inventaris;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InventarisController extends Controller
 {
@@ -13,8 +15,9 @@ class InventarisController extends Controller
     public function index()
     {
         //
-        $inventaris = inventaris::all();
-        return view('inventaris.index')->with('inventaris', $inventaris);
+        $kategoris = Kategori::all();
+        $inventaris = Inventaris::all();
+        return view('inventaris.index')->with('inventaris', $inventaris)->with('kategoris', $kategoris);
     }
 
     /**
@@ -33,16 +36,16 @@ class InventarisController extends Controller
         //
         $validateData = $request->validate([
             'nama_barang' => 'required',
-            'kategori_barang' => 'required',
+            'kategori_id' => 'required',
             'jumlah_stok' => 'required',
             'harga_beli' => 'required',
             'harga_jual' => 'required',
             'satuan' => 'required',
         ]);
 
-        $inventaris = new inventaris();
+        $inventaris = new Inventaris();
         $inventaris->nama_barang = $validateData['nama_barang'];
-        $inventaris->kategori_barang = $validateData['kategori_barang'];
+        $inventaris->kategori_id = $validateData['kategori_id'];
         $inventaris->jumlah_stok = $validateData['jumlah_stok'];
         $inventaris->harga_beli = $validateData['harga_beli'];
         $inventaris->harga_jual = $validateData['harga_jual'];
@@ -55,7 +58,7 @@ class InventarisController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(inventaris $inventaris)
+    public function show(Inventaris $inventaris)
     {
         //
     }
@@ -63,7 +66,7 @@ class InventarisController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(inventaris $inventaris)
+    public function edit(Inventaris $inventaris)
     {
         //
     }
@@ -71,7 +74,7 @@ class InventarisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, inventaris $inventaris)
+    public function update(Request $request, Inventaris $inventaris)
     {
         //
     }
@@ -82,7 +85,7 @@ class InventarisController extends Controller
     public function destroy($id)
     {
         //
-        $inventaris = inventaris::find($id);
+        $inventaris = Inventaris::find($id);
         $inventaris->delete();
         return redirect()->route('inventaris.index');
     }
