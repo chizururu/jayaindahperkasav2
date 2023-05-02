@@ -121,7 +121,7 @@
             subHarga = document.getElementById('sub_harga').value;
 
             const barang = {
-                id : daftarBarang.length + 1,
+                id : daftarBarang.length,
                 idBrg : idBarang,
                 nama : namaBarang,
                 harga : hargaBarang,
@@ -154,7 +154,7 @@
                 thargaSatuan.innerHTML = daftarBarang[i].harga;
                 tjumlahBarang.innerHTML = daftarBarang[i].jumlah;
                 tsubHarga.innerHTML = daftarBarang[i].sub;
-                tAction.innerHTML = '<button type="button" class="btn btn-warning m-1" onclick="edit(' + i + ')">Edit</button>' +
+                tAction.innerHTML = '<button type="button" class="btn btn-warning m-1" onclick="edit('+ i +')">Edit</button>' +
                     '<button class="btn btn-danger m-1">Delete</button>';
             }
         }
@@ -171,24 +171,10 @@
             editbtn.style.display = "block";
             cancelBtn.style.display = "block";
             addBtn.style.display = "none";
-            const barang = daftarBarang.find(({id}) => id === id);
 
-            barangId = barang.id;
-
-            document.getElementById('nama_barang').value = barang.idBrg;
-            document.getElementById('harga_barang').value = barang.harga;
-            document.getElementById('jumlah_barang').value = barang.jumlah;
-            document.getElementById('sub_harga').value = barang.sub;
-
-            barangId = null;
         }
 
         function update() {
-            const barang = daftarBarang.find(({id}) => id === id);
-
-
-            console.log(barang);
-
 
             totalBayar();
             dummy();
