@@ -1,4 +1,6 @@
 @extends('layout')
+@section('title-page', 'Transaksi')
+@section('title', 'Form Transaksi')
 @section('content')
     <div class="pagetitle">
         <h1>Form Transaksi</h1>
@@ -40,31 +42,17 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>
-                            <select id="nama_barang" class="form-select" for="nama_barang[]">
-                                <option value="">Pilih Barang</option>
-                                @foreach($inventaris as $inv)
-                                    <option value="{{ $inv->id }}" nama-barang="{{ $inv->nama_barang }}" harga-jual="{{ $inv->harga_jual }}">{{ $inv->nama_barang }}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control" id="harga_barang" name="harga_barang[]">
-                        </td>
-                        <td>
-                            <input type="number" class="form-control" id="jumlah_barang" name="jumlah_barang[]" onkeyup="addField()">
-                        </td>
-                        <td>
-                            <input type="number" class="form-control" id="sub_harga" name="sub_harga[]" onkeyup="addField()" readonly>
-                        </td>
-                        <td>
-                            <button id="btn-add" type="button" class="btn btn-success btn-tambah m-1" onclick="tambahBarang()">Add</button>
-                            <button id="btn-update" type="button" class="btn btn-primary btn-update m-1" onclick="update()">Update</button>
-                            <button id="btn-cancel" type="button" class="btn btn-primary btn-danger m-1" onclick="cancel()">Cancel</button>
-                        </td>
+
                     </tr>
                     </tbody>
                 </table>
+                <button type="button" id="addbtn" class="btn btn-primary" onclick="addRow()">Add Row</button>
+                <div class="d-flex justify-content-center">
+                    <div class="m-2">
+                        <button type="button" id="savebtn" class="btn btn-success" onclick="save()">Save</button>
+                        <button type="button" id="cancelbtn" class="btn btn-danger" onclick="cancel()">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -81,129 +69,172 @@
                         </div>
                     </div>
                     <div class="text-center p-3">
-                        <button type="submit" class="btn btn-success">Simpan</button>
+                        <button type="submit" id="simpan" class="btn btn-primary">Simpan Transaksi</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
     <script>
-
-        var editbtn = document.getElementById('btn-update');
-        var addBtn = document.getElementById('btn-add');
-        var cancelBtn = document.getElementById('btn-cancel');
-
-        editbtn.style.display = "none";
-        cancelBtn.style.display = "none";
-
         let daftarBarang = [];
-        var barangId, namaBarang, hargaBarang, jumlahBarang, subHarga;
-        const selection = document.querySelector('#nama_barang');
-        selection.addEventListener('change', function () {
-            const selectionOption = this.options[this.selectedIndex]
-            hargaBarang = selectionOption.getAttribute('harga-jual');
-            /*console.log(hargaBarang);*/
-            document.getElementById('harga_barang').value = hargaBarang;
-            /*console.log(selectionOption);*/
-        });
+        const addtrans = document.getElementById("simpan");
+        addtrans.disabled = true;
 
-        function addField() {
-            hargaBarang = document.getElementById('harga_barang').value;
-            jumlahBarang = document.getElementById('jumlah_barang').value;
-            document.getElementById('sub_harga').value = hargaBarang*jumlahBarang;
-        }
-
-        function tambahBarang() {
-            idBarang = selection.options[selection.selectedIndex].getAttribute('value');
-            namaBarang = selection.options[selection.selectedIndex].getAttribute('nama-barang');
-            hargaBarang = document.getElementById('harga_barang').value;
-            jumlahBarang = document.getElementById('jumlah_barang').value;
-            subHarga = document.getElementById('sub_harga').value;
-
-            const barang = {
-                id : daftarBarang.length,
-                idBrg : idBarang,
-                nama : namaBarang,
-                harga : hargaBarang,
-                jumlah : jumlahBarang,
-                sub : subHarga}
-
-            daftarBarang.push(barang);
-            datatabel();
-            totalBayar();
-            dummy();
-            /*console.log(daftarBarang);*/
-            selection.selectedIndex = 0
-            document.getElementById('harga_barang').value = '';
-            document.getElementById('jumlah_barang').value = '';
-            document.getElementById('sub_harga').value = '';
-        }
-
-        function datatabel() {
+        function addRow() {
             const tabel = document.getElementById('tabel-barang');
-            const row = tabel.insertRow()
+            const row = tabel.insertRow();
 
             const tnamaBarang = row.insertCell(0);
             const thargaSatuan = row.insertCell(1);
             const tjumlahBarang = row.insertCell(2);
             const tsubHarga = row.insertCell(3);
-            const tAction = row.insertCell(4);
+            const taction = row.insertCell(4);
 
-            for (var i = 0; i < daftarBarang.length; i++) {
-                tnamaBarang.innerHTML = daftarBarang[i].nama;
-                thargaSatuan.innerHTML = daftarBarang[i].harga;
-                tjumlahBarang.innerHTML = daftarBarang[i].jumlah;
-                tsubHarga.innerHTML = daftarBarang[i].sub;
-                tAction.innerHTML = '<button type="button" class="btn btn-warning m-1" onclick="edit('+ i +')">Edit</button>' +
-                    '<button class="btn btn-danger m-1">Delete</button>';
-            }
-        }
+            tnamaBarang.innerHTML = '<select id="nama_barang" class="form-select" for="nama_barang[]">'+
+                '<option value="">Pilih Barang</option>'+
+                '@foreach($inventaris as $inv)'+
+                '<option value="{{ $inv->id }}" nama-barang="{{ $inv->nama_barang }}" harga-jual="{{ $inv->harga_jual }}">{{ $inv->nama_barang }}</option>'+
+                '@endforeach'+
+                '</select>';
+            thargaSatuan.innerHTML = '<input type="number" class="form-control" id="harga_barang" name="harga_barang[]">';
+            tjumlahBarang.innerHTML = '<input type="number" class="form-control" id="jumlah_barang" name="jumlah_barang[]" onkeyup="addField(this)">';
+            tsubHarga.innerHTML = '<input type="number" class="form-control" id="sub_harga" name="sub_harga[]" onkeyup="addField(this)" readonly>';
+            taction.innerHTML = '<button id="deletebtn" type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button>';
 
-        function totalBayar() {
-            var totalHarga = 0;
-            for (var i = 0; i < daftarBarang.length; i++) {
-                totalHarga += daftarBarang[i].jumlah * daftarBarang[i].harga;
-            }
-            document.getElementById('total_harga').value = totalHarga;
-        }
-
-        function edit(id) {
-            editbtn.style.display = "block";
-            cancelBtn.style.display = "block";
-            addBtn.style.display = "none";
+            const selection = row.querySelector('#nama_barang');
+            selection.addEventListener('change', function () {
+                const selectionOption = this.options[this.selectedIndex];
+                hargaBarang = selectionOption.getAttribute('harga-jual');
+                row.querySelector('[name="harga_barang[]"]').value = hargaBarang;
+            });
 
         }
 
-        function update() {
+        function addField() {
+            const inputJumlah = document.querySelectorAll('[name="jumlah_barang[]"]');
+            const inputHarga = document.querySelectorAll('[name="harga_barang[]"]');
+            const inputSubHarga = document.querySelectorAll('[name="sub_harga[]"]');
+            const totalHargaFields = document.querySelectorAll('#total_harga');
 
-            totalBayar();
-            dummy();
+            let totalHarga = 0;
 
-            editbtn.style.display = "none";
-            cancelBtn.style.display = "none";
-            addBtn.style.display = "block";
+            inputJumlah.forEach(function (el, index) {
+                const jumlah = el.value;
+                const harga = inputHarga[index].value;
+                const subHarga = jumlah * harga;
+                inputSubHarga[index].value = subHarga;
 
-            document.getElementById('nama_barang').value = '';
-            document.getElementById('harga_barang').value = '';
-            document.getElementById('jumlah_barang').value = '';
-            document.getElementById('sub_harga').value = '';
+                totalHarga += subHarga;
+            });
+
+            totalHargaFields.forEach(function (el) {
+               el.value = totalHarga;
+            });
+        }
+
+
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            const index = row.rowIndex - 1;
+
+            row.remove();
+        }
+
+        function save() {
+            const selectionBarang = document.querySelectorAll('[for="nama_barang[]"]');
+            const inputJumlah = document.querySelectorAll('[name="jumlah_barang[]"]');
+            const inputHarga = document.querySelectorAll('[name="harga_barang[]"]');
+            const inputSubHarga = document.querySelectorAll('[name="sub_harga[]"]');
+            const addbtn = document.getElementById("addbtn");
+            const deletebtn = document.querySelectorAll("#deletebtn");
+
+            addbtn.disabled = true;
+            addtrans.disabled = false;
+
+            selectionBarang.forEach(function (elem, index) {
+                elem.disabled = true;
+
+                const idbarang = selectionBarang[index].value;
+                const jumlah = inputJumlah[index].value;
+                const harga = inputHarga[index].value
+                const subHarga = inputSubHarga[index].value;
+
+                console.log(idbarang);
+                console.log(jumlah);
+                console.log(harga);
+                console.log(subHarga);
+
+                const barang = {
+                    id: idbarang,
+                    jumlah: jumlah,
+                    harga: harga,
+                    subharga: subHarga,
+                }
+                daftarBarang.push(barang);
+            });
+
+            inputJumlah.forEach(function (elem) {
+                elem.disabled = true;
+            });
+
+            inputHarga.forEach(function (elem) {
+                elem.disabled = true;
+            });
+
+            inputSubHarga.forEach(function (elem) {
+                elem.disabled = true;
+            });
+
+            deletebtn.forEach(function (elem) {
+                elem.disabled = true;
+            });
+            storageData();
+            console.log(daftarBarang)
         }
 
         function cancel() {
-            editbtn.style.display = "none";
-            cancelBtn.style.display = "none";
-            addBtn.style.display = "block";
+            const selectionBarang = document.querySelectorAll('[for="nama_barang[]"]');
+            const inputJumlah = document.querySelectorAll('[name="jumlah_barang[]"]');
+            const inputHarga = document.querySelectorAll('[name="harga_barang[]"]');
+            const inputSubHarga = document.querySelectorAll('[name="sub_harga[]"]');
+            const addbtn = document.getElementById("addbtn");
+            const deletebtn = document.querySelectorAll("#deletebtn");
 
-            document.getElementById('nama_barang').value = '';
-            document.getElementById('harga_barang').value = '';
-            document.getElementById('jumlah_barang').value = '';
-            document.getElementById('sub_harga').value = '';
+            console.log(addtrans);
+            addbtn.disabled = false;
+            addtrans.disabled = true;
+
+            daftarBarang = [];
+            console.log(daftarBarang);
+            selectionBarang.forEach(function (elem) {
+                elem.disabled = false;
+            });
+
+            inputJumlah.forEach(function (elem) {
+                elem.disabled = false;
+            });
+
+            inputHarga.forEach(function (elem) {
+                elem.disabled = false;
+            });
+
+            inputSubHarga.forEach(function (elem) {
+                elem.disabled = false;
+            });
+
+            deletebtn.forEach(function (elem) {
+                elem.disabled = false;
+            });
+
         }
 
-        function dummy() {
-            const dummy = document.getElementById('daftar_barang').value = JSON.stringify(daftarBarang);
-            return dummy;
+        function subTotal(input) {
         }
 
+        function storageData() {
+            const storage = document.getElementById('daftar_barang').value = JSON.stringify(daftarBarang);
+
+            return storage;
+        }
     </script>
 @endsection

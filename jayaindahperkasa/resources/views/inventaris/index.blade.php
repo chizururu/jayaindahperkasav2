@@ -1,7 +1,9 @@
 @extends('layout')
+@section('title-page', 'Inventaris')
+@section('title', 'Inventaris')
 @section('content')
     <div class="pagetitle">
-        <h1>Inventaris</h1>
+        <h1>Laporan Inventaris</h1>
     </div>
     <hr>
     <div class="row">

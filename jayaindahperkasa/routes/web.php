@@ -5,6 +5,7 @@ use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DetailtransaksiController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,7 @@ use App\Http\Controllers\DetailtransaksiController;
 |
 */
 
-Route::get('/', function () {
-    return view('layout');
-});
+Route::resource('/', DashboardController::class);
 
 Route::resource('/inventaris', InventarisController::class);
 Route::resource('/transaksi', TransaksiController::class);

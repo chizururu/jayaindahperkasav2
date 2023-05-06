@@ -40,10 +40,8 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
         $validateData = $request->validate([
             'nama_pelanggan' => 'required',
-            /*'daftar_barang' => 'required',*/
             'total_harga' => 'required',
         ]);
         $transaksi = new Transaksi();
@@ -56,9 +54,9 @@ class TransaksiController extends Controller
         foreach ($daftar_barang as $barang) {
             $detailtransaksi = new DetailTransaksi();
             $detailtransaksi->transaksi_id = $transaksi_id;
-            $detailtransaksi->inventaris_id = $barang['idBrg'];
+            $detailtransaksi->inventaris_id = $barang['id'];
             $detailtransaksi->jumlah_barang = $barang['jumlah'];
-            $detailtransaksi->sub_total = $barang['sub'];
+            $detailtransaksi->sub_total = $barang['subharga'];
             $detailtransaksi->save();
         };
         return redirect()->route('transaksi.index');

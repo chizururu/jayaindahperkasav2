@@ -3,22 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailTransaksi;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Termwind\Components\Raw;
 
-class DetailtransaksiController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         //
-        $tanggal = $request->input('tanggal');
+        $tanggal = date('Y-m-d');
 
-        if(!$tanggal) {
-            $tanggal = date('Y-m-d');
-        }
         $jumlahBarang = DetailTransaksi::select()
             ->whereDate('detailtransaksis.created_at', $tanggal)
             ->sum('jumlah_barang');
@@ -26,15 +25,21 @@ class DetailtransaksiController extends Controller
             ->whereDate('detailtransaksis.created_at', $tanggal)
             ->sum('sub_total');
 
-        $detailtransaksi = DetailTransaksi::select('inventaris_id', DB::raw('SUM(jumlah_barang) AS jumlah' ),
-            DB::raw('SUM(sub_total) AS total'))
-            ->join('inventaris', 'detailtransaksis.inventaris_id','=','inventaris.id')
-            ->whereDate('detailtransaksis.created_at', $tanggal)
-            ->groupBy('inventaris_id', 'inventaris.nama_barang')
-            ->orderBy('inventaris.nama_barang')
+        $pelanggan = Transaksi::select()
+            ->whereDate('created_at', $tanggal)
+            ->count('id');
+
+        /*Pendapatan berdasarkan line chart*/
+        $result = DB::table('transaksis')
+            ->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') AS month"), DB::raw("SUM(total_harga) AS total"))
+            ->groupBy('month')
+            ->orderBy('month', 'ASC')
             ->get();
 
-        return view('laporan.index', compact('detailtransaksi', 'tanggal', 'totalHarga', 'jumlahBarang'));
+        $labels = $result->pluck('month')->toArray();
+        $data = $result->pluck('total')->toArray();
+        return view('dashboard.index', compact('tanggal', 'totalHarga',
+            'jumlahBarang', 'pelanggan', 'labels', 'data'));
     }
 
     /**
@@ -56,7 +61,7 @@ class DetailtransaksiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(detailTransaksi $detailtransaksi)
+    public function show(string $id)
     {
         //
     }
@@ -64,7 +69,7 @@ class DetailtransaksiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(detailTransaksi $detailtransaksi)
+    public function edit(string $id)
     {
         //
     }
@@ -72,7 +77,7 @@ class DetailtransaksiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, detailTransaksi $detailtransaksi)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -80,7 +85,7 @@ class DetailtransaksiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(detailTransaksi $detailtransaksi)
+    public function destroy(string $id)
     {
         //
     }

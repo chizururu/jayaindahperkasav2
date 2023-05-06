@@ -1,7 +1,9 @@
 @extends('layout')
+@section('title-page', 'Transaksi')
+@section('title', ' Order Transaksi')
 @section('content')
     <div class="pagetitle">
-        <h1>Transaksi</h1>
+        <h1>Order Transaksi</h1>
     </div>
     <hr>
     <!-- Filter search transaksi berdasarkan tanggal -->

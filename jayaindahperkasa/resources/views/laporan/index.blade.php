@@ -1,4 +1,6 @@
 @extends('layout')
+@section('title-page', 'Transaksi')
+@section('title', 'Laporan Transaksi')
 @section('content')
     <div class="pagetitle">
         <h1>Laporan Transaksi</h1>
