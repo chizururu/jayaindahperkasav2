@@ -58,6 +58,11 @@ class TransaksiController extends Controller
             $detailtransaksi->jumlah_barang = $barang['jumlah'];
             $detailtransaksi->sub_total = $barang['subharga'];
             $detailtransaksi->save();
+
+            // Mengurangi
+            $inventaris = Inventaris::find($barang['id']);
+            $inventaris -> jumlah_stok -= $barang['jumlah'];
+            $inventaris-> save();
         };
         return redirect()->route('transaksi.index');
     }

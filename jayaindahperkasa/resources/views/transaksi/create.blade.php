@@ -21,6 +21,18 @@
                             <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan">
                         </div>
                     </div>
+                    <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label">Nomor Telepon</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="no_telepon" name="no_telepon">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label for="alamat" class="col-sm-4 col-form-label">Alamat</label>
+                        <div class="col-sm-7">
+                            <textarea name="alamat" class="form-control" style="height: 80px"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -18,11 +18,14 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
-Route::resource('/', DashboardController::class);
+
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('/inventaris', InventarisController::class);
 Route::resource('/transaksi', TransaksiController::class);
 Route::resource('/kategori', KategoriController::class);
 Route::resource('/laporan', DetailtransaksiController::class);
-
 

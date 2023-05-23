@@ -16,24 +16,48 @@
                             Tambah Barang
                         </button>
                     </div>
-                    <table class="table datatable">
+{{--                    <table class="table datatable">--}}
+{{--                        <thead>--}}
+{{--                            <tr>--}}
+{{--                                <th scope="col" class="text-center">#</th>--}}
+{{--                                <th scope="col" class="text-center">Kategori</th>--}}
+{{--                                <th scope="col" class="text-center">Deskripsi</th>--}}
+{{--                                <th scope="col" class="text-center"></th>--}}
+{{--                            </tr>--}}
+{{--                        </thead>--}}
+{{--                        <tbody>--}}
+{{--                            @foreach($kategori as $data)--}}
+{{--                                <tr>--}}
+{{--                                    <td>{{ $loop->iteration }}</td>--}}
+{{--                                    <td>{{ $data->kategori }}</td>--}}
+{{--                                    <td>Deskripsi</td>--}}
+{{--                                    <td>--}}
+{{--                                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKategori{{ $data->id }}">--}}
+{{--                                            Delete Kategori--}}
+{{--                                        </button>--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
+{{--                            @endforeach--}}
+{{--                        </tbody>--}}
+{{--                    </table>--}}
+                    <table class="table datatable table-bordered border-primary">
                         <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Kategori</th>
-                            <th scope="col"></th>
-                        </tr>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Kategori</th>
+                                <th scope="col">Deskripsi</th>
+                                <th scope="col">Jumlah</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach($kategori as $data)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <th scope="row">{{ $loop->iteration }}</th>
                                     <td>{{ $data->kategori }}</td>
-                                    <td>
-                                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKategori{{ $data->id }}">
-                                            Delete Kategori
-                                        </button>
-                                    </td>
+                                    <td>Designer</td>
+                                    <td>28</td>
+                                    <td>2016-05-25</td>
                                 </tr>
                             @endforeach
                         </tbody>

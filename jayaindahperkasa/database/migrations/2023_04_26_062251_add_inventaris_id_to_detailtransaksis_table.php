@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('detailtransaksis', function (Blueprint $table) {
             //
             $table->foreignId('inventaris_id')->after('id')
-                ->constrained()->onUpdate('cascade')->onDelete('set null');
+                ->constrained()->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
