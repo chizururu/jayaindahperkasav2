@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DetailTransaksi;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Termwind\Components\Raw;
 
@@ -28,6 +29,14 @@ class HomeController extends Controller
     public function index()
     {
         //
+        $user = Auth::user();
+
+        if ($user && $user->status == 0) {
+            Auth::logout();
+            return view('waiting');
+        }
+        return view('home');
+        
         $tanggal = date('Y-m-d');
 
         $jumlahBarang = DetailTransaksi::select()
