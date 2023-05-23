@@ -58,7 +58,7 @@ class InventarisController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Inventaris $inventaris)
+    public function show(Request $request,Inventaris $inventaris)
     {
         //
     }
@@ -74,9 +74,27 @@ class InventarisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Inventaris $inventaris)
+    public function update(Request $request, $id)
     {
         //
+        $validatedData = $request->validate([
+            'nama_barang' => 'required',
+            'kategori_id' => 'required',
+            'jumlah_stok' => 'required|numeric',
+            'harga_beli' => 'required|numeric',
+            'harga_jual' => 'required|numeric',
+            'satuan' => 'required',
+        ]);
+        $inventaris = Inventaris::find($id);
+        $inventaris->nama_barang = $validatedData['nama_barang'];
+        $inventaris->kategori_id = $validatedData['kategori_id'];
+        $inventaris->jumlah_stok = $validatedData['jumlah_stok'];
+        $inventaris->harga_beli = $validatedData['harga_beli'];
+        $inventaris->harga_jual = $validatedData['harga_jual'];
+        $inventaris->satuan = $validatedData['satuan'];
+
+        $inventaris->save();
+        return redirect()->route('inventaris.index');
     }
 
     /**

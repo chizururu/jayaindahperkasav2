@@ -32,8 +32,8 @@
 {{--                                    <td>{{ $data->kategori }}</td>--}}
 {{--                                    <td>Deskripsi</td>--}}
 {{--                                    <td>--}}
-{{--                                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKategori{{ $data->id }}">--}}
-{{--                                            Delete Kategori--}}
+{{--                                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKategori{{ $data->id }}">
+{{--                                            Delete Kategori
 {{--                                        </button>--}}
 {{--                                    </td>--}}
 {{--                                </tr>--}}
@@ -46,7 +46,6 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Kategori</th>
                                 <th scope="col">Deskripsi</th>
-                                <th scope="col">Jumlah</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
@@ -55,9 +54,12 @@
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <td>{{ $data->kategori }}</td>
-                                    <td>Designer</td>
-                                    <td>28</td>
-                                    <td>2016-05-25</td>
+                                    <td>{{$data->deskripsi}}</td>
+                                    <td>
+                                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKategori{{ $data->id }}">
+                                            Delete Kategori
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -78,12 +80,22 @@
                 <div class="modal-body">
                     <form action="{{ route('kategori.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="row g-3">
+                        <div class="row g-3 mb-2">
                             <div class="col col-sm-3">
                                 <label for="kategori" class="form-label">Kategori</label>
                             </div>
                             <div class="col">
                                 <input type="text" class="form-control" name="kategori">
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-2">
+                            <div class="col col-sm-3">
+                                <label for="deskripsi" class="col-sm-4 col-form-label">Deskripsi</label>
+                            </div>
+                            <div class="col">
+                                <div class="col">
+                                    <textarea name="deskripsi" class="form-control" style="height: 100px"></textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer text-center">

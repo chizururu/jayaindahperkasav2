@@ -33,10 +33,12 @@ class KategoriController extends Controller
         //
         $validateData = $request->validate([
             'kategori' => 'required',
+            'deskripsi' => 'required',
         ]);
 
         $kategori = new Kategori();
         $kategori->kategori = $validateData['kategori'];
+        $kategori->deskripsi = $validateData['deskripsi'];
         $kategori->save();
 
         return redirect()->route('kategori.index');

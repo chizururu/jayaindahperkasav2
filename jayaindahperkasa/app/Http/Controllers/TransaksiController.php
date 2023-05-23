@@ -7,6 +7,8 @@ use App\Models\Inventaris;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 
 class TransaksiController extends Controller
 {
@@ -43,10 +45,16 @@ class TransaksiController extends Controller
         $validateData = $request->validate([
             'nama_pelanggan' => 'required',
             'total_harga' => 'required',
+            'no_telepon' => 'required',
+            'alamat' => 'required',
+
         ]);
+
         $transaksi = new Transaksi();
         $transaksi->nama_pelanggan = $validateData['nama_pelanggan'];
         $transaksi->total_harga = $validateData['total_harga'];
+        $transaksi->no_telepon = $validateData['no_telepon'];
+        $transaksi->alamat = $validateData['alamat'];
         $transaksi->save();
 
         $transaksi_id = $transaksi->id;
@@ -64,6 +72,7 @@ class TransaksiController extends Controller
             $inventaris -> jumlah_stok -= $barang['jumlah'];
             $inventaris-> save();
         };
+        /*return redirect()->route('transaksi.index');*/
         return redirect()->route('transaksi.index');
     }
 

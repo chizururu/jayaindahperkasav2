@@ -87,42 +87,6 @@
             </div>
         </div>
     </div>
-    <div class="section">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Grafik Pendapatan</h5>
-
-                <!-- Line Chart -->
-                <canvas id="lineChart" style="max-height: 600px;"></canvas>
-                <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                        new Chart(document.querySelector('#lineChart'), {
-                            type: 'line',
-                            data: {
-                                labels: {!! json_encode($labels) !!},
-                                datasets: [{
-                                    label: 'Pendapatan',
-                                    data: {!! json_encode($data) !!},
-                                    fill: false,
-                                    borderColor: 'rgb(208,91,91)',
-                                    tension: 0.1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
-                    });
-                </script>
-                <!-- End Line CHart -->
-
-            </div>
-        </div>
-    </div>
 
     <script>
         function showDateTime() {

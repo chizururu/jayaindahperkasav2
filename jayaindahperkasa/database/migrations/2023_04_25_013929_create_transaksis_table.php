@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nama_pelanggan');
+            $table->string('no_telepon');
+            $table->text('alamat');
             $table->integer('total_harga');
         });
     }

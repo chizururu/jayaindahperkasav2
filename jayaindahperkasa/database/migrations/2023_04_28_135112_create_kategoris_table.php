@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('kategori');
             $table->text('deskripsi');
-            $table->integer('jumlah');
             $table->timestamps();
         });
     }

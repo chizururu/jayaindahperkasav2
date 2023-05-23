@@ -239,10 +239,6 @@
             });
 
         }
-
-        function subTotal(input) {
-        }
-
         function storageData() {
             const storage = document.getElementById('daftar_barang').value = JSON.stringify(daftarBarang);
 
