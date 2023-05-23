@@ -35,7 +35,7 @@ class HomeController extends Controller
             Auth::logout();
             return view('waiting');
         }
-        
+
         $tanggal = date('Y-m-d');
 
         $jumlahBarang = DetailTransaksi::select()
