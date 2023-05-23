@@ -11,9 +11,53 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title m-0">Daftar Barang</h5>
+                    @if(session()->has('info-add'))
+                        <div id="add-alert" class="alert alert-success alert-delete">
+                            <button id="alert-add-btn" type="button" class="btn-close"></button>
+                            {{ session()->get('info-add') }}
+                        </div>
+                        <script>
+                            // Add Alert
+                            addAlertClose = document.getElementById("alert-add-btn");
+                            add_alert = document.getElementById("add-alert");
+                            addAlertClose.addEventListener('click', function () {
+                                add_alert.style.display="none"
+                            });
+                        </script>
+                    @endif
+                    @if(session()->has('info-update'))
+                        <div id="update-alert" class="alert alert-warning">
+                            <button id="alert-update-btn" type="button" class="btn-close"></button>
+                            {{ session()->get('info-update') }}
+                        </div>
+                        <script>
+                            // Update
+                            updateAlertClose = document.getElementById("alert-update-btn");
+                            update_alert = document.getElementById("update-alert");
+
+                            updateAlertClose.addEventListener('click', function () {
+                                update_alert.style.display="none"
+                            });
+                        </script>
+                    @endif
+                    @if(session()->has('info-delete'))
+                        <div id="delete-alert" class="alert alert-danger">
+                            <button id="alert-delete-btn" type="button" class="btn-close"></button>
+                            {{ session()->get('info-delete') }}
+                        </div>
+                        <script>
+                            // Delete
+                            deleteAlertClose = document.getElementById("alert-delete-btn");
+                            delete_alert = document.getElementById("delete-alert");
+
+                            deleteAlertClose.addEventListener('click', function () {
+                                delete_alert.style.display="none"
+                            });
+                        </script>
+                    @endif
                     <div class="py-2">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBarang">
-                            Tambah Barang
+                            Add Barang
                         </button>
                     </div>
                     <table class="table datatable">
@@ -219,8 +263,8 @@
         </div>
     @endforeach
     {{-- Javascipt --}}
-    {{-- Add Barang --}}
     <script>
+        {{-- Add Barang --}}
         document.getElementById('addBarang').addEventListener('hidden.bs.modal', function () {
            document.getElementById('addForm').reset();
         });

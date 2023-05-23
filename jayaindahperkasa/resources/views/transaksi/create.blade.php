@@ -39,7 +39,7 @@
         <!--Testing-->
         <div class="card shadow mb-4">
             <div class="card-header py-2">
-                <h5 class="card-title m-0">Daftar Barang</h5>
+                <h5 class="card-title m-0">Keranjang Barang</h5>
             </div>
             <div class="card-body mt-2">
                 <table id="tabel-barang" class="table">
@@ -70,7 +70,7 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-2">
-                <h5 class="card-title m-0">Informasi Pelanggan</h5>
+                <h5 class="card-title m-0">Pembayaran</h5>
             </div>
             <div class="card-body mt-2">
                 <div class="py-4">

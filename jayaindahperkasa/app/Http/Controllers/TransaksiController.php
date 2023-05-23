@@ -72,8 +72,7 @@ class TransaksiController extends Controller
             $inventaris -> jumlah_stok -= $barang['jumlah'];
             $inventaris-> save();
         };
-        /*return redirect()->route('transaksi.index');*/
-        return redirect()->route('transaksi.index');
+        return redirect()->route('transaksi.index')->with("info-add", "Order $transaksi->id, $transaksi->nama_pelanggan berhasil ditambahkan");
     }
 
     /**
@@ -82,6 +81,8 @@ class TransaksiController extends Controller
     public function show(Transaksi $transaksi)
     {
         //
+        $detailTransaksi = DetailTransaksi::where('transaksi_id', $transaksi->id)->get();
+        return view('detailtransaksi.index', compact('transaksi', 'detailTransaksi'));
     }
 
     /**

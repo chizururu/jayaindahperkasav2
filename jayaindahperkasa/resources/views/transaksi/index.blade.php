@@ -34,6 +34,22 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title m-0">Daftar Barang</h5>
+
+                    @if(session()->has('info-add'))
+                        <div id="add-alert" class="alert alert-success alert-delete">
+                            <button id="alert-add-btn" type="button" class="btn-close"></button>
+                            {{ session()->get('info-add') }}
+                        </div>
+                        <script>
+                            // Add Alert
+                            addAlertClose = document.getElementById("alert-add-btn");
+                            add_alert = document.getElementById("add-alert");
+                            addAlertClose.addEventListener('click', function () {
+                                add_alert.style.display="none"
+                            });
+                        </script>
+                    @endif
+
                     <div class="py-2">
                         <button type="button" class="btn btn-primary btn-icon-split" onclick="location.href='{{ url('transaksi/create') }}'">
                             <span class="icon text-white"><i class="bi bi-plus-lg"></i></span>
@@ -47,6 +63,7 @@
                             <th>Tanggal</th>
                             <th>Nama Pelanggan</th>
                             <th>Total Bayar</th>
+                            <th>Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -56,6 +73,7 @@
                                     <td>{{ $data->created_at }}</td>
                                     <td>{{ $data->nama_pelanggan }}</td>
                                     <td>{{ $data->total_harga }}</td>
+                                    <td><a href="{{ url('transaksi/'. $data->id) }}">Show</a></td>
                                 </tr>
                             @endforeach
                         </tbody>

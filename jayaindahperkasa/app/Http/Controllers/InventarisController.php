@@ -52,7 +52,7 @@ class InventarisController extends Controller
         $inventaris->satuan = $validateData['satuan'];
 
         $inventaris->save();
-        return redirect()->route('inventaris.index');
+        return redirect()->route('inventaris.index')->with("info-add", "Barang $inventaris->nama_barang berhasil ditambahkan");
     }
 
     /**
@@ -94,7 +94,7 @@ class InventarisController extends Controller
         $inventaris->satuan = $validatedData['satuan'];
 
         $inventaris->save();
-        return redirect()->route('inventaris.index');
+        return redirect()->route('inventaris.index')->with('info-update', "Barang $inventaris->nama_barang berhasil diupdate");
     }
 
     /**
@@ -105,6 +105,6 @@ class InventarisController extends Controller
         //
         $inventaris = Inventaris::find($id);
         $inventaris->delete();
-        return redirect()->route('inventaris.index');
+        return redirect()->route('inventaris.index')->with('info-delete', "Barang $inventaris->nama_barang berhasil dihapus");
     }
 }
