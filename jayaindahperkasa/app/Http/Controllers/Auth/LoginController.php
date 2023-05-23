@@ -50,7 +50,7 @@ class LoginController extends Controller
         if ($user && $user->password === $credentials['password']) {
             // Login berhasil
             Auth::login($user);
-            return redirect()->intended('/home');
+            return redirect()->intended('/');
         } else {
             // Login gagal
             return redirect()->back()->withErrors(['email' => 'Email atau password salah']);

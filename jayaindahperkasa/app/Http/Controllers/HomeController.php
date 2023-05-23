@@ -35,7 +35,6 @@ class HomeController extends Controller
             Auth::logout();
             return view('waiting');
         }
-        return view('home');
         
         $tanggal = date('Y-m-d');
 
