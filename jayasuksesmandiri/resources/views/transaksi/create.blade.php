@@ -41,6 +41,31 @@
             <div class="card-header py-2">
                 <h5 class="card-title m-0">Keranjang Barang</h5>
             </div>
+            <div id="save-alert" class="alert alert-success alert-delete m-4">
+                <button id="alert-add-btn" type="button" class="btn-close"></button>
+                Keranjang Barang Telah Disimpan
+            </div>
+            <script>
+                // Add Alert
+                saveAlertClose = document.getElementById("alert-add-btn");
+                save_alert = document.getElementById("add-alert");
+                saveAlertClose.addEventListener('click', function () {
+                    save_alert.style.display="none"
+                });
+            </script>
+
+            <div id="cancel-alert" class="alert alert-danger alert-delete m-4">
+                <button id="alert-cancel-btn" type="button" class="btn-close"></button>
+                Simpan keranjang Telah Dibatalkan
+            </div>
+            <script>
+                // Add Alert
+                cancelAlertClose = document.getElementById("alert-cancel-btn");
+                cancel_alert = document.getElementById("cancel-alert");
+                cancelAlertClose.addEventListener('click', function () {
+                    cancel_alert.style.display="none"
+                });
+            </script>
             <div class="card-body mt-2">
                 <table id="tabel-barang" class="table">
                     <thead>
@@ -90,8 +115,17 @@
     <script>
         let daftarBarang = [];
         const addtrans = document.getElementById("simpan");
+        savebtn = document.getElementById("savebtn");
+        cancelbtn = document.getElementById("cancelbtn");
+
         addtrans.disabled = true;
 
+        save_alert = document.getElementById("save-alert");
+
+        cancel_alert = document.getElementById("cancel-alert");
+
+        save_alert.style.display="none";
+        cancel_alert.style.display="none";
         function addRow() {
             const tabel = document.getElementById('tabel-barang');
             const row = tabel.insertRow();
@@ -162,7 +196,11 @@
 
             addbtn.disabled = true;
             addtrans.disabled = false;
+            savebtn.style.display = "none";
+            cancelbtn.style.display = "block";
 
+            save_alert.style.display = "block";
+            cancel_alert.style.display = "none";
             selectionBarang.forEach(function (elem, index) {
                 elem.disabled = true;
 
@@ -213,8 +251,16 @@
             const deletebtn = document.querySelectorAll("#deletebtn");
 
             console.log(addtrans);
+            // Button
             addbtn.disabled = false;
             addtrans.disabled = true;
+
+            savebtn.style.display = "block";
+            cancelbtn.style.display = "none";
+
+            // Alert
+            save_alert.style.display="none"
+            cancel_alert.style.display="block";
 
             daftarBarang = [];
             console.log(daftarBarang);

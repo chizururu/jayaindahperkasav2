@@ -53,7 +53,7 @@ class LoginController extends Controller
             return redirect()->intended('/');
         } else {
             // Login gagal
-            return redirect()->back()->withErrors(['email' => 'Email atau password salah']);
+            return redirect()->back()->with('error-message', 'Username dan Password Anda Salah');
         }
     }
 }

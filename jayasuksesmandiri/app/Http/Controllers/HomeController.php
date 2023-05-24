@@ -33,7 +33,7 @@ class HomeController extends Controller
 
         if ($user && $user->status == 0) {
             Auth::logout();
-            return view('waiting');
+            return view('auth/login');
         }
 
         $tanggal = date('Y-m-d');

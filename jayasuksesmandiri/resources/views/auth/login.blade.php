@@ -10,12 +10,26 @@
                         <div class="card mb-3">
 
                             <div class="card-body">
-
                                 <div class="pt-4 pb-2">
                                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                                     <p class="text-center small">Enter your username & password to login</p>
                                 </div>
 
+                                @if(session()->has('error-message'))
+                                    <div id="message-alert" class="alert alert-danger">
+                                        <button id="alert-message-btn" type="button" class="btn-close"></button>
+                                        {{ session()->get('error-message') }}
+                                    </div>
+                                    <script>
+                                        // Delete
+                                        messageAlertClose = document.getElementById("alert-message-btn");
+                                        message_alert = document.getElementById("message-alert");
+
+                                        messageAlertClose.addEventListener('click', function () {
+                                            message_alert.style.display="none"
+                                        });
+                                    </script>
+                                @endif
                                 <form method="POST" action="{{ route('login') }}" class="row g-3 needs-validation" novalidate>
                                     @csrf
                                     <div class="col-12">
