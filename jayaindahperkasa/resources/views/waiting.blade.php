@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title-app', 'Access Denied')
 @section('content')
     <div class="container">
         <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
@@ -14,7 +14,7 @@
                 <!-- You can delete the links only if you purchased the pro version. -->
                 <!-- Licensing information: https://bootstrapmade.com/license/ -->
                 <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                Designed by <span class="fw-bold text-primary">Jaya Indah Perkasa</span>
+                Designed by <span class="fw-bold text-primary">Jaya Sukses Mandiri</span>
             </div>
         </section>
 

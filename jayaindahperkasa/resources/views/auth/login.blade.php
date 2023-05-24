@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title-app', 'Login')
 @section('content')
     <div class="container">
 
@@ -72,7 +72,7 @@
                             <!-- You can delete the links only if you purchased the pro version. -->
                             <!-- Licensing information: https://bootstrapmade.com/license/ -->
                             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                            Designed by <span class="fw-bold text-primary">Jaya Indah Perkasa</span>
+                            Designed by <span class="fw-bold text-primary">Jaya Sukses Mandiri</span>
                         </div>
 
                     </div>

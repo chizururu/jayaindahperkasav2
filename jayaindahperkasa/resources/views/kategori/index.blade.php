@@ -11,6 +11,50 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title m-0">Tabel Kategori</h5>
+                    @if(session()->has('info-add'))
+                        <div id="add-alert" class="alert alert-success alert-delete">
+                            <button id="alert-add-btn" type="button" class="btn-close"></button>
+                            {{ session()->get('info-add') }}
+                        </div>
+                        <script>
+                            // Add Alert
+                            addAlertClose = document.getElementById("alert-add-btn");
+                            add_alert = document.getElementById("add-alert");
+                            addAlertClose.addEventListener('click', function () {
+                                add_alert.style.display="none"
+                            });
+                        </script>
+                    @endif
+                    @if(session()->has('info-update'))
+                        <div id="update-alert" class="alert alert-warning">
+                            <button id="alert-update-btn" type="button" class="btn-close"></button>
+                            {{ session()->get('info-update') }}
+                        </div>
+                        <script>
+                            // Update
+                            updateAlertClose = document.getElementById("alert-update-btn");
+                            update_alert = document.getElementById("update-alert");
+
+                            updateAlertClose.addEventListener('click', function () {
+                                update_alert.style.display="none"
+                            });
+                        </script>
+                    @endif
+                    @if(session()->has('info-delete'))
+                        <div id="delete-alert" class="alert alert-danger">
+                            <button id="alert-delete-btn" type="button" class="btn-close"></button>
+                            {{ session()->get('info-delete') }}
+                        </div>
+                        <script>
+                            // Delete
+                            deleteAlertClose = document.getElementById("alert-delete-btn");
+                            delete_alert = document.getElementById("delete-alert");
+
+                            deleteAlertClose.addEventListener('click', function () {
+                                delete_alert.style.display="none"
+                            });
+                        </script>
+                    @endif
                     <div class="py-2">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addKategori">
                             Tambah Barang
@@ -55,7 +99,7 @@
                     <button type="button" class="btn-close" data-bs-dimiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('kategori.store') }}" method="POST" enctype="multipart/form-data">
+                    <form id="addKategori" action="{{ route('kategori.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row g-3 mb-2">
                             <div class="col col-sm-3">
@@ -95,8 +139,9 @@
                         <button type="button" class="btn-close" data-bs-dimiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('kategori.store') }}" method="POST" enctype="multipart/form-data">
+                        <form id="editKategori{{ $data->id }}" action="{{ route('kategori.update', ['kategori' => $data->id]) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="row g-3 mb-2">
                                 <div class="col col-sm-3">
                                     <label for="kategori" class="form-label">Kategori</label>
@@ -110,9 +155,7 @@
                                     <label for="deskripsi" class="col-sm-4 col-form-label">Deskripsi</label>
                                 </div>
                                 <div class="col">
-                                    <div class="col">
-                                        <textarea name="deskripsi" class="form-control" style="height: 100px" value="{{ $data->deskripsi }}"></textarea>
-                                    </div>
+                                    <textarea name="deskripsi" class="form-control" style="height: 100px">{{ $data->deskripsi }}</textarea>
                                 </div>
                             </div>
                             <div class="modal-footer text-center">
@@ -152,5 +195,20 @@
                 </div>
             </div>
         </div>
+    @endforeach
+    {{-- Javascipt --}}
+    <script>
+        {{-- Add Barang --}}
+        document.getElementById('addKategori').addEventListener('hidden.bs.modal', function () {
+            document.getElementById('addForm').reset();
+        });
+    </script>
+    {{-- Edit Barang --}}
+    @foreach($kategori as $data)
+        <script>
+            document.getElementById('editKategori{{ $data->id }}').addEventListener('hidden.bs.modal', function () {
+                document.getElementById('editForm{{ $data->id }}').reset();
+            });
+        </script>
     @endforeach
 @endsection

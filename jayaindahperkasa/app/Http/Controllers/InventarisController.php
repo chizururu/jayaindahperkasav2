@@ -52,7 +52,7 @@ class InventarisController extends Controller
         $inventaris->satuan = $validateData['satuan'];
 
         $inventaris->save();
-        return redirect()->route('inventaris.index')->with("info-add", "Barang $inventaris->nama_barang berhasil ditambahkan");
+        return redirect()->route('inventaris.index')->with("info-add", "Barang $inventaris->nama_barang berhasil ditambah");
     }
 
     /**

@@ -41,7 +41,7 @@ class KategoriController extends Controller
         $kategori->deskripsi = $validateData['deskripsi'];
         $kategori->save();
 
-        return redirect()->route('kategori.index');
+        return redirect()->route('kategori.index')->with('info-add', "$kategori->kategori berhasil ditambah");
     }
 
     /**
@@ -63,9 +63,20 @@ class KategoriController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, $id)
     {
         //
+        $validateData = $request->validate([
+            'kategori' => 'required',
+            'deskripsi' => 'required',
+        ]);
+
+        $kategori = Kategori::find($id);
+        $kategori->kategori = $validateData['kategori'];
+        $kategori->deskripsi = $validateData['deskripsi'];
+        $kategori->save();
+
+        return redirect()->route('kategori.index')->with('info-update', "$kategori->kategori berhasil diupdate");
     }
 
     /**
@@ -76,6 +87,6 @@ class KategoriController extends Controller
         //
         $kategori = Kategori::find($id);
         $kategori->delete();
-        return redirect()->route('kategori.index');
+        return redirect()->route('kategori.index')->with('info-delete', "$kategori->kategori berhasil dihapus");
     }
 }

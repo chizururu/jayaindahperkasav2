@@ -1,6 +1,6 @@
 @extends('layout')
 @section('title-page', 'Transaksi')
-@section('title', 'Form Transaksi')
+@section('title', 'Detail Transaksi')
 @section('content')
     <div class="pagetitle">
         <h1>Detail Transaksi</h1>

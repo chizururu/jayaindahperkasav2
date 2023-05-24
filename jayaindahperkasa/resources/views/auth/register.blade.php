@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title-app', 'Register')
 @section('content')
     <div class="container">
 
@@ -31,7 +31,7 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                                        <label for="email" class="form-label">{{ __('Email Address') }}</label>
                                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
                                         @error('email')
@@ -76,7 +76,7 @@
                             <!-- You can delete the links only if you purchased the pro version. -->
                             <!-- Licensing information: https://bootstrapmade.com/license/ -->
                             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                            Designed by <span class="fw-bold text-primary">Jaya Indah Perkasa</span>
+                            Designed by <span class="fw-bold text-primary">Jaya Sukses Mandiri</span>
                         </div>
 
                     </div>
