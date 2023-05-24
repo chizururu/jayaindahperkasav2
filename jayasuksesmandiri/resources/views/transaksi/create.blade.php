@@ -118,7 +118,11 @@
         savebtn = document.getElementById("savebtn");
         cancelbtn = document.getElementById("cancelbtn");
 
+        savebtn.style.display = "block";
+        cancelbtn.style.display = "none";
+
         addtrans.disabled = true;
+
 
         save_alert = document.getElementById("save-alert");
 
