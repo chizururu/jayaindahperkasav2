@@ -13,7 +13,7 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() //untuk menampilkan fungsi index
     {
         //
         $tanggal = date('Y-m-d');

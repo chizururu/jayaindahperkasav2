@@ -12,11 +12,11 @@ class InventarisController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() //untuk menampilkan halaman inventaris
     {
         //
-        $kategoris = Kategori::all();
-        $inventaris = Inventaris::all();
+        $kategoris = Kategori::all(); //model mengambil database kategori
+        $inventaris = Inventaris::all(); ////model mengambil database inventaris
         return view('inventaris.index')->with('inventaris', $inventaris)->with('kategoris', $kategoris);
     }
 
@@ -34,7 +34,7 @@ class InventarisController extends Controller
     public function store(Request $request)
     {
         //
-        $validateData = $request->validate([
+        $validateData = $request->validate([ //validasi menyimpan data transaksi
             'nama_barang' => 'required',
             'kategori_id' => 'required',
             'jumlah_stok' => 'required',
@@ -43,7 +43,7 @@ class InventarisController extends Controller
             'satuan' => 'required',
         ]);
 
-        $inventaris = new Inventaris();
+        $inventaris = new Inventaris(); //sebagai objek data dari inventaris
         $inventaris->nama_barang = $validateData['nama_barang'];
         $inventaris->kategori_id = $validateData['kategori_id'];
         $inventaris->jumlah_stok = $validateData['jumlah_stok'];
@@ -76,7 +76,7 @@ class InventarisController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //fungsi untuk mengupdate data melalui form inventaris
         $validatedData = $request->validate([
             'nama_barang' => 'required',
             'kategori_id' => 'required',
@@ -85,7 +85,7 @@ class InventarisController extends Controller
             'harga_jual' => 'required|numeric',
             'satuan' => 'required',
         ]);
-        $inventaris = Inventaris::find($id);
+        $inventaris = Inventaris::find($id); //untuk mengambil id yang user edit
         $inventaris->nama_barang = $validatedData['nama_barang'];
         $inventaris->kategori_id = $validatedData['kategori_id'];
         $inventaris->jumlah_stok = $validatedData['jumlah_stok'];
@@ -102,7 +102,7 @@ class InventarisController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //untuk menghapus dalam id inventaris yang user ingin hapus
         $inventaris = Inventaris::find($id);
         $inventaris->delete();
         return redirect()->route('inventaris.index')->with('info-delete', "Barang $inventaris->nama_barang berhasil dihapus");

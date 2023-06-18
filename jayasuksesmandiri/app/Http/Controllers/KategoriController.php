@@ -10,7 +10,7 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() //untuk menampilkan halaman index kategori
     {
         //
         $kategori = Kategori::all();
@@ -30,13 +30,13 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //untuk menyimpan data kategori barang dalam database
         $validateData = $request->validate([
             'kategori' => 'required',
             'deskripsi' => 'required',
         ]);
 
-        $kategori = new Kategori();
+        $kategori = new Kategori(); //untuk memanggil model kategori dari database
         $kategori->kategori = $validateData['kategori'];
         $kategori->deskripsi = $validateData['deskripsi'];
         $kategori->save();
@@ -65,13 +65,13 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //untuk menyimpan data yang telah diupdate
         $validateData = $request->validate([
             'kategori' => 'required',
             'deskripsi' => 'required',
         ]);
 
-        $kategori = Kategori::find($id);
+        $kategori = Kategori::find($id); //untuk mencari id kategori yang user ingin update
         $kategori->kategori = $validateData['kategori'];
         $kategori->deskripsi = $validateData['deskripsi'];
         $kategori->save();
@@ -84,7 +84,7 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //untuk menghapus dalam id kategori yang user ingin hapus
         $kategori = Kategori::find($id);
         $kategori->delete();
         return redirect()->route('kategori.index')->with('info-delete', "$kategori->kategori berhasil dihapus");

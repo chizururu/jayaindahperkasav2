@@ -11,7 +11,7 @@ class DetailtransaksiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request) //untuk menampilkan halaman detail transaksi
     {
         //
         $tanggal = $request->input('tanggal');
@@ -35,6 +35,7 @@ class DetailtransaksiController extends Controller
             ->get();
 
         return view('laporan.index', compact('detailtransaksi', 'tanggal', 'totalHarga', 'jumlahBarang'));
+        //fungsi menampilkan halaman laporan/index.blade.php
     }
 
     /**
