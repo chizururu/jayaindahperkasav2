@@ -1,11 +1,8 @@
 @extends('layouts.main')
-@section('title-page', 'Transaksi')
+@section('title-page', 'Detail Transaksi')
 @section('title', 'Detail Transaksi')
 @section('content')
     <a href="{{ url('/transaksi') }}" class="btn btn-warning m-2"><i class="bi bi-arrow-90deg-left"></i><span class="badge badge-secondary">Kembali</span></a>
-    <div class="pagetitle">
-        <h1>Detail Transaksi</h1>
-    </div>
     <hr>
     <div class="card shadow mb-4">
         <div class="card-header py-2">

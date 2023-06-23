@@ -1,18 +1,14 @@
 @extends('layouts.main')
-@section('title-page', 'Transaksi')
+@section('title-page', 'Laporan Transaksi Penjualan Barang')
 @section('title', 'Laporan Transaksi')
 @section('content')
     <a href="{{ url('/transaksi') }}" class="btn btn-warning m-2"><i class="bi bi-arrow-90deg-left"></i><span class="badge badge-secondary">Kembali</span></a>
-    <div class="pagetitle">
-        <h1>Laporan Transaksi</h1>
+    <hr>
     </div>
     {{-- Filter Search Transaksi Berdasarkan Tanggal --}}
-    <p class="mb-4">Date Runing</p>
     <div class="card shadow mb-4">
-        <div class="card-header py-2">
-            <h6 class="m-0 font-bold">Filter Search Tanggal</h6>
-        </div>
         <div class="card-body">
+            <h5 class="card-title">Filter Search</h5>
             <form action="/laporantransaksi" method="{{ route('transaksi.index') }}">
                 <div class="row">
                     <div class="col">
