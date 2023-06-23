@@ -81,7 +81,8 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
 
         if ($user->status == 0) {
-            return redirect()->route('login')->with('error-message', 'Akun anda butuh diverifikasikan. Silahkan hubungi administrator.');
+            return redirect()->route('login')->with('error-message', 'Akun anda butuh diverifikasikan. silahkan lapor kepada
+            Eddy Tjhai - 085267733700. Untuk melakukan verifikasi akun');
         }
 
         $this->guard()->login($user);
