@@ -23,9 +23,8 @@ use App\Http\Controllers\DetailTransaksiController;
 
 
 Auth::routes();
-
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'status.zero'])->group(function () {
     Route::resource('karyawan', UserController::class);
     Route::resource('produk', ProdukController::class);
     Route::resource('kategori', KategoriController::class);
