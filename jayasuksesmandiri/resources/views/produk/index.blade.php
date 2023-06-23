@@ -1,6 +1,6 @@
 @extends('layouts.main')
-@section('title-page', 'Produk')
-@section('title', 'Produk')
+@section('title-page', 'Inventaris')
+@section('title', 'Inventaris')
 
 @section('content')
     <a href="{{ url('/') }}" class="btn btn-warning m-2"><i class="bi bi-arrow-90deg-left"></i><span class="badge badge-secondary">Beranda</span></a>
