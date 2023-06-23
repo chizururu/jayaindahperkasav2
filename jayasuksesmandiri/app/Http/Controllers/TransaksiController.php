@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DetailTransaksi;
-use App\Models\Inventaris;
+use App\Models\LaporPengeluaran;
+use App\Models\Produk;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-
+use App\Models\DetailTransaksi;
+use PDF;
 
 class TransaksiController extends Controller
 {
@@ -18,13 +17,16 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         //
-        $tanggal = $request->input('tanggal');
+        $tanggal_mulai = $request->input('tanggal_mulai');
+        $tanggal_terakhir = $request->input('tanggal_terakhir');
 
-        if(!$tanggal) {
-            $tanggal = date('Y-m-d');
+        if ($tanggal_mulai && $tanggal_terakhir) {
+            $transaksi = Transaksi::whereBetween('created_at', [$tanggal_mulai, $tanggal_terakhir])->get();
+        } else {
+            $transaksi = Transaksi::all();
         }
-        $transaksi = Transaksi::whereDate('created_at', $tanggal)->get();
-        return view('transaksi.index', compact('transaksi', 'tanggal'));
+
+        return view('transaksi.index', compact('transaksi', 'tanggal_mulai', 'tanggal_terakhir'));
     }
 
     /**
@@ -33,8 +35,8 @@ class TransaksiController extends Controller
     public function create()
     {
         //
-        $inventaris = Inventaris::all();
-        return view('transaksi.create')->with('inventaris', $inventaris);
+        $produk = Produk::all();
+        return view('transaksi.create')->with('produk', $produk);
     }
 
     /**
@@ -42,6 +44,7 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $validateData = $request->validate([
             'nama_pelanggan' => 'required',
             'total_harga' => 'required',
@@ -49,7 +52,6 @@ class TransaksiController extends Controller
             'alamat' => 'required',
 
         ]);
-
         $transaksi = new Transaksi();
         $transaksi->nama_pelanggan = $validateData['nama_pelanggan'];
         $transaksi->total_harga = $validateData['total_harga'];
@@ -60,17 +62,26 @@ class TransaksiController extends Controller
         $transaksi_id = $transaksi->id;
         $daftar_barang = json_decode($request->input('daftar_barang'),true);
         foreach ($daftar_barang as $barang) {
+            $produk = Produk::find($barang['id']);
+
             $detailtransaksi = new DetailTransaksi();
             $detailtransaksi->transaksi_id = $transaksi_id;
-            $detailtransaksi->inventaris_id = $barang['id'];
+            $detailtransaksi->produk_id = $barang['id'];
+            $detailtransaksi->nama_barang = $produk->nama_barang;
+            $detailtransaksi->harga_barang = $produk->harga_jual;
             $detailtransaksi->jumlah_barang = $barang['jumlah'];
             $detailtransaksi->sub_total = $barang['subharga'];
             $detailtransaksi->save();
 
-            // Mengurangi
-            $inventaris = Inventaris::find($barang['id']);
-            $inventaris -> jumlah_stok -= $barang['jumlah'];
-            $inventaris-> save();
+            // Mengurangi Stok Barang
+            $produk -> jumlah_stok -= $barang['jumlah'];
+            $produk-> save();
+
+            // Laporan Pengeluaran
+            $LaporanPengeluaran = new LaporPengeluaran();
+            $LaporanPengeluaran->pengeluaran = $barang['jumlah'];;
+            $LaporanPengeluaran->produk_id = $barang['id'];
+            $LaporanPengeluaran->save();
         };
         return redirect()->route('transaksi.index')->with("info-add", "Order $transaksi->id, $transaksi->nama_pelanggan berhasil ditambahkan");
     }
@@ -82,7 +93,20 @@ class TransaksiController extends Controller
     {
         //
         $detailTransaksi = DetailTransaksi::where('transaksi_id', $transaksi->id)->get();
-        return view('detailtransaksi.index', compact('transaksi', 'detailTransaksi'));
+        return view('transaksi.show', compact('transaksi', 'detailTransaksi'));
+
+    }
+    /*
+     * Cetak Nota melalui pdf
+     * */
+
+    public function invoices(Transaksi $transaksi) {
+        $detailTransaksi = DetailTransaksi::where('transaksi_id', $transaksi->id)->get();
+
+        $pdf = PDF::loadView('transaksi.invoice', compact('transaksi', 'detailTransaksi'));
+        $filename = $transaksi->nama_pelanggan . '-' . $transaksi->id . '-' .date('Ymd'). ' Invoices' . '.pdf' ;
+        return $pdf->download($filename);
+
     }
 
     /**

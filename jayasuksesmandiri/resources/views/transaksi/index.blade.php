@@ -1,10 +1,8 @@
-@extends('layout')
+@extends('layouts.main')
 @section('title-page', 'Transaksi')
 @section('title', ' Order Transaksi')
 @section('content')
-    <div class="pagetitle">
-        <h1>Order Transaksi</h1>
-    </div>
+    <a href="{{ url('/') }}" class="btn btn-warning m-2"><i class="bi bi-arrow-90deg-left"></i><span class="badge badge-secondary">Home</span></a>
     <hr>
     <!-- Filter search transaksi berdasarkan tanggal -->
     <p class="mb-4">Date Runing</p>
@@ -17,14 +15,17 @@
                 <label class="py-2" for="tanggal">Pilih Tanggal</label>
                 <div class="row">
                     <div class="col">
-                        <input class="form-control" type="date" name="tanggal" value="{{ request()->input('tanggal') ?? date('Y-m-d') }}">
+                        <label class="py-2" for="tanggal_mulai">Tanggal Mulai</label>
+                        <input class="form-control" type="date" name="tanggal_mulai" value="{{ request()->input('tanggal_mulai') }}">
                     </div>
                     <div class="col">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                        @if($tanggal)
-                            <a href="{{ route('transaksi.index') }}" class="btn btn-warning">Reset</a>
-                        @endif
+                        <label class="py-2" for="tanggal_terakhir">Tanggal Terakhir</label>
+                        <input class="form-control" type="date" name="tanggal_terakhir" value="{{ request()->input('tanggal_terakhir') }}">
                     </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn btn-primary m-2">Search</button>
+                    <a href="{{ route('transaksi.index') }}" class="btn btn-warning m-2">Reset</a>
                 </div>
             </form>
         </div>
@@ -60,6 +61,7 @@
                         <thead>
                         <tr>
                             <th>#</th>
+                            <th>Transaksi ID</th>
                             <th>Tanggal</th>
                             <th>Nama Pelanggan</th>
                             <th>Total Bayar</th>
@@ -67,15 +69,18 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($transaksi as $data)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $data->created_at }}</td>
-                                    <td>{{ $data->nama_pelanggan }}</td>
-                                    <td>{{ $data->total_harga }}</td>
-                                    <td><a href="{{ url('transaksi/'. $data->id) }}">Show</a></td>
-                                </tr>
-                            @endforeach
+                        @foreach($transaksi as $data)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $data->id }}</td>
+                                <td>{{ $data->created_at }}</td>
+                                <td>{{ $data->nama_pelanggan }}</td>
+                                <td>{{ $data->total_harga }}</td>
+                                <td><a href="{{ url('transaksi/'. $data->id) }}" class="btn btn-light m-2"><i class="bi bi-receipt"></i><span class="badge text-black">Detail Transaksi</span></a>
+                                    <a href="{{ url('transaksi/'. $data->id. '/invoices') }}" class="btn btn-secondary m-2"><i class="bi bi-file-earmark-pdf"></i><span class="badge badge-secondary">Print Transaksi</span></a>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

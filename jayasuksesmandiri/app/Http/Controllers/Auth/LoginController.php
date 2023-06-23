@@ -7,8 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\User;
 
+use App\Models\User;
 class LoginController extends Controller
 {
     /*
@@ -47,13 +47,15 @@ class LoginController extends Controller
 
         $user = User::where('email', $credentials['email'])->first();
 
+        if ($user -> status == 0) {
+            return redirect()->route('login')-> with('error-message', 'Akun anda butuh diverifikasikan. silahkan lapor');
+        }
         if ($user && $user->password === $credentials['password']) {
-            // Login berhasil
             Auth::login($user);
             return redirect()->intended('/');
         } else {
-            // Login gagal
-            return redirect()->back()->with('error-message', 'Username dan Password Anda Salah');
+            return redirect()->route('login')-> with('error-message', 'Email atau password anda masukan salah');
         }
     }
+
 }

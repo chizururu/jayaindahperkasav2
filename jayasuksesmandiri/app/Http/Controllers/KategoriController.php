@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
+use App\Models\kategori;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -10,11 +10,12 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() //untuk menampilkan halaman index kategori
+    public function index()
     {
         //
-        $kategori = Kategori::all();
-        return view('kategori.index')->with('kategori', $kategori);
+        $kategori = kategori::all();
+
+        return view('produk/kategori')->with('kategori', $kategori);
     }
 
     /**
@@ -30,24 +31,25 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //untuk menyimpan data kategori barang dalam database
+        //
         $validateData = $request->validate([
-            'kategori' => 'required',
-            'deskripsi' => 'required',
-        ]);
+            'kategori' => 'required|unique:kategoris,kategori,',
+        ],[
+                'kategori.required' => 'Kategori barang harus diisi.',
+                'kategori.unique' => 'Kategori barang sudah ada.',
+            ]
+        );
 
         $kategori = new Kategori(); //untuk memanggil model kategori dari database
         $kategori->kategori = $validateData['kategori'];
-        $kategori->deskripsi = $validateData['deskripsi'];
         $kategori->save();
-
         return redirect()->route('kategori.index')->with('info-add', "$kategori->kategori berhasil ditambah");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Kategori $kategori)
+    public function show(kategori $kategori)
     {
         //
     }
@@ -55,7 +57,7 @@ class KategoriController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kategori $kategori)
+    public function edit(kategori $kategori)
     {
         //
     }
@@ -65,15 +67,16 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //untuk menyimpan data yang telah diupdate
+        //
         $validateData = $request->validate([
-            'kategori' => 'required',
-            'deskripsi' => 'required',
+            'kategori' => 'required|unique:kategoris,kategori,'. $id,
+        ], [
+            'kategori.required' => 'Kategori barang harus diisi.',
+            'kategori.unique' => 'Kategori barang sudah ada.',
         ]);
 
         $kategori = Kategori::find($id); //untuk mencari id kategori yang user ingin update
         $kategori->kategori = $validateData['kategori'];
-        $kategori->deskripsi = $validateData['deskripsi'];
         $kategori->save();
 
         return redirect()->route('kategori.index')->with('info-update', "$kategori->kategori berhasil diupdate");
