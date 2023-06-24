@@ -61,5 +61,10 @@ class LoginController extends Controller
             return redirect()->route('login')-> with('error-message', 'Email atau password anda masukan salah. Silakan laporkan kepada Eddy Tjhai (085267733700) untuk proses pemulihan akun.');
         }
     }
+    public function logout()
+    {
+        Auth::logout();
 
+        return redirect()->route('login');
+    }
 }
