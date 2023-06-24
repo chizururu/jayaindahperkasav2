@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /*Tidak Dipakai*/
         Schema::table('detail_transaksis', function (Blueprint $table) {
             //
-            $table->foreignId('produk_id')->after('transaksi_id')->nullable()->constrained()
-                ->onUpdate('CASCADE')->onDelete('SET NULL');
+//            $table->foreignId('produk_id')->after('transaksi_id')->nullable()->constrained()
+//                ->onUpdate('CASCADE')->onDelete('SET NULL');
         });
     }
 
@@ -25,8 +26,8 @@ return new class extends Migration
     {
         Schema::table('detail_transaksis', function (Blueprint $table) {
             //
-            $table->dropForeign('detail_transaksis_produk_id_foreign');
-            $table->dropColumn('produk_id');
+//            $table->dropForeign('detail_transaksis_produk_id_foreign');
+//            $table->dropColumn('produk_id');
         });
     }
 };

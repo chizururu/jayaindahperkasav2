@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('detail_transaksis', function (Blueprint $table) {
             //
             $table->foreignId('transaksi_id')->after('id')->constrained()
-                ->onUpdate('CASCADE')->onDelete('RESTRICT');
+                ->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

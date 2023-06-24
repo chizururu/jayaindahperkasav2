@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\kategori;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -89,7 +90,12 @@ class KategoriController extends Controller
     {
         //untuk menghapus dalam id kategori yang user ingin hapus
         $kategori = Kategori::find($id);
-        $kategori->delete();
-        return redirect()->route('kategori.index')->with('info-delete', "$kategori->kategori berhasil dihapus");
+        $produk = Produk::where('kategori_id', $id)->first();
+        if ($produk) {
+            return redirect()->route('kategori.index')->with('info-delete', "Kategori $kategori->kategori  tidak dapat dihapus karena terdapat produk terkait.");
+        } else {
+            $kategori->delete();
+            return redirect()->route('kategori.index')->with('info-delete', "$kategori->kategori berhasil dihapus");
+        }
     }
 }

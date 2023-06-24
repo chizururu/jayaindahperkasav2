@@ -47,7 +47,10 @@ class LoginController extends Controller
 
         $user = User::where('email', $credentials['email'])->first();
 
-        if ($user->status == 0) {
+        if ($user && $user->status == null) {
+            // Logout user if the status is null
+            Auth::logout();
+
             return redirect()->route('login')->with('error-message', 'Akun Anda perlu diverifikasi. Silakan laporkan kepada Eddy Tjhai (085267733700) untuk proses verifikasi.');
         }
 

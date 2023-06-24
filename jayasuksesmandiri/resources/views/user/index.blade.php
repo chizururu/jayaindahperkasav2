@@ -66,8 +66,8 @@
                                         <td>{{ $item->email }}</td>
                                         <td>{{ $item->password }}</td>
                                         <td>
-                                            @if($item->status == 0)
-                                                <span class="badge bg-danger">Non Karyawan</span>
+                                            @if($item->status == null)
+                                                <span class="badge bg-danger">TIDAK VERIFIKASI</span>
                                             @elseif($item->status == 1)
                                                 <span class="badge bg-primary">Karyawan</span>
                                             @else
@@ -92,7 +92,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Add Barang</h5>
+                                    <h5 class="modal-title">Add Karyawan</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -129,7 +129,6 @@
                                             <div class="col">
                                                 <select class="form-select" name="status">
                                                     <option value="">Pilih Status karyawan</option>
-                                                    <option value="0">Non Karyawan</option>
                                                     <option value="1">Karyawan</option>
                                                     <option value="2">Pimpinan</option>
                                                 </select>
@@ -189,7 +188,6 @@
                                                 <div class="col">
                                                     <select class="form-select" name="status">
                                                         <option value="">Pilih Status karyawan</option>
-                                                        <option value="0" {{ $item->status == '0' ? 'selected' : '' }}>Non Karyawan</option>
                                                         <option value="1" {{ $item->status == '1' ? 'selected' : '' }}>Karyawan</option>
                                                         <option value="2" {{ $item->status == '2' ? 'selected' : '' }}>Pimpinan</option>
                                                     </select>

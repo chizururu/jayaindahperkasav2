@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('produks', function (Blueprint $table) {
             //
             $table->foreignId('kategori_id')->after('id')->constrained()
-                ->onUpdate('cascade');
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

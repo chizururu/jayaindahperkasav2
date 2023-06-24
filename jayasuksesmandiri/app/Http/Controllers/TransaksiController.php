@@ -66,7 +66,6 @@ class TransaksiController extends Controller
 
             $detailtransaksi = new DetailTransaksi();
             $detailtransaksi->transaksi_id = $transaksi_id;
-            $detailtransaksi->produk_id = $barang['id'];
             $detailtransaksi->nama_barang = $produk->nama_barang;
             $detailtransaksi->harga_barang = $produk->harga_jual;
             $detailtransaksi->jumlah_barang = $barang['jumlah'];

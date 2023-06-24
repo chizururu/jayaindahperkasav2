@@ -18,7 +18,7 @@ class CheckUserStatus
     {
         $user = Auth::user();
 
-        if ($user -> status == 0) {
+        if ($user -> status == null) {
             return redirect()->route('login')->with('error-message', 'Akun anda butuh diverifikasikan. Silahkan laporkan kepada Eddy Tjhai - 085267733700 untuk melakukan verifikasi akun');
         } else {
             return $next($request);

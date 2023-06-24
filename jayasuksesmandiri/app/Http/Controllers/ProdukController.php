@@ -186,6 +186,6 @@ class ProdukController extends Controller
         //
         $produk = Produk::find($id);
         $produk->delete();
-        return redirect()->route('kategori.index')->with('info-delete', "$produk->nama_barang berhasil dihapus");
+        return redirect()->route('produk.index')->with('info-delete', "$produk->nama_barang berhasil dihapus");
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -80,8 +81,11 @@ class RegisterController extends Controller
 
         $user = $this->create($request->all());
 
-        if ($user->status == 0) {
-            return redirect()->route('login')->with('error-message', 'Akun anda butuh diverifikasikan. Silakan laporkan kepada Eddy Tjhai (085267733700) untuk proses verifikasi..');
+        if ($user && $user->status == null) {
+            // Logout user if the status is null
+            Auth::logout();
+
+            return redirect()->route('login')->with('error-message', 'Akun Anda perlu diverifikasi. Silakan laporkan kepada Eddy Tjhai (085267733700) untuk proses verifikasi.');
         }
 
         $this->guard()->login($user);
