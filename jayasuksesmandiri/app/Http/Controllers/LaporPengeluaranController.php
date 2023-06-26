@@ -44,6 +44,7 @@ class LaporPengeluaranController extends Controller
         $LaporanPengeluaran = new LaporPengeluaran();
         $LaporanPengeluaran->pengeluaran = max(0, $validateData['pengeluaran']);
         $LaporanPengeluaran->produk_id = $validateData['produk_id'];
+        $LaporanPengeluaran->status = 'Pengurangan Stok Barang';
         $LaporanPengeluaran->save();
         /*Menambahkan stok barang setelah menambah jumlah stok barang*/
 

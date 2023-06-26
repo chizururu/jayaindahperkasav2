@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+
 
 class UserController extends Controller
 {
@@ -48,7 +51,7 @@ class UserController extends Controller
         $karyawan = new User();
         $karyawan->name = $validateData['name'];
         $karyawan->email = $validateData['email'];
-        $karyawan->password = $validateData['password'];
+        $karyawan->password = Hash::make($validateData['password']);
         $karyawan->status = $validateData['status'];
         $karyawan->save();
 
@@ -93,7 +96,7 @@ class UserController extends Controller
         $karyawan = User::find($id);
         $karyawan->name = $validateData['name'];
         $karyawan->email = $validateData['email'];
-        $karyawan->password = $validateData['password'];
+        $karyawan->password = Hash::make($validateData['password']);
         $karyawan->status = $validateData['status'];
         $karyawan->save();
 

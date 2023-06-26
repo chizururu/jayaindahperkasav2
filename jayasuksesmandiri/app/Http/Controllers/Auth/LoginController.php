@@ -54,13 +54,14 @@ class LoginController extends Controller
             return redirect()->route('login')->with('error-message', 'Akun Anda perlu diverifikasi. Silakan laporkan kepada Eddy Tjhai (085267733700) untuk proses verifikasi.');
         }
 
-        if ($user && $user->password === $credentials['password']) {
+        if ($user && password_verify($credentials['password'], $user->password)) {
             Auth::login($user);
             return redirect()->intended('/');
         } else {
-            return redirect()->route('login')-> with('error-message', 'Email atau password anda masukan salah. Silakan laporkan kepada Eddy Tjhai (085267733700) untuk proses pemulihan akun.');
+            return redirect()->route('login')->with('error-message', 'Email atau password yang Anda masukkan salah. Silakan laporkan kepada Eddy Tjhai (085267733700) untuk proses pemulihan akun.');
         }
     }
+
     public function logout()
     {
         Auth::logout();

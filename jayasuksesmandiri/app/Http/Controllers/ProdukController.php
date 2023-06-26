@@ -8,6 +8,7 @@ use App\Models\Produk;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\LaporPengeluaran;
+use PDF;
 
 class ProdukController extends Controller
 {
@@ -70,6 +71,7 @@ class ProdukController extends Controller
         $LaporanPemasukan = new LaporMasukan();
         $LaporanPemasukan->produk_id = $produk->id;
         $LaporanPemasukan->pemasukan = $produk->jumlah_stok;
+        $LaporanPemasukan->status = 'Menambahkan Barang Baru';
         $LaporanPemasukan->save();
 
         return redirect()->route('produk.index')->with("info-add", "Barang $produk->nama_barang berhasil ditambah");
@@ -87,29 +89,36 @@ class ProdukController extends Controller
 
         $produk = Produk::find($id);
 
-        if ($tanggal_mulai && $tanggal_terakhir) {
-            $laporanPemasukan = LaporMasukan::where('produk_id', $id)
-                ->where('pemasukan', '>', 0)
-                ->whereBetween('created_at', [$tanggal_mulai, $tanggal_terakhir])
-                ->get();
-
-            $laporanPengeluaran = LaporPengeluaran::where('produk_id', $id)
-                ->where('pengeluaran', '>', 0)
-                ->whereBetween('created_at', [$tanggal_mulai, $tanggal_terakhir])
-                ->get();
+        // Set default time range if tanggal_mulai is empty
+        if (empty($tanggal_mulai)) {
+            $tanggal_mulai = date('Y-m-d 00:00:00');
+            $tanggal_terakhir = date('Y-m-d 23:59:59');
         } else {
-            $laporanPemasukan = LaporMasukan::where('produk_id', $id)
-                ->where('pemasukan', '>', 0)
-                ->orderByDesc('created_at')
-                ->get();
+            // Set tanggal_terakhir to tanggal_mulai if it is empty
+            if (empty($tanggal_terakhir)) {
+                $tanggal_terakhir = $tanggal_mulai;
+            }
 
-            $laporanPengeluaran = LaporPengeluaran::where('produk_id', $id)
-                ->where('pengeluaran', '>', 0)
-                ->orderByDesc('created_at')
-                ->get();
+            // Append time portion to the input dates
+            $tanggal_mulai = date('Y-m-d 00:00:00', strtotime($tanggal_mulai));
+            $tanggal_terakhir = date('Y-m-d 23:59:59', strtotime($tanggal_terakhir));
         }
+
+        $laporanPemasukan = LaporMasukan::where('produk_id', $id)
+            ->where('pemasukan', '>', 0)
+            ->whereBetween('created_at', [$tanggal_mulai, $tanggal_terakhir])
+            ->orderByDesc('created_at')
+            ->get();
+
+        $laporanPengeluaran = LaporPengeluaran::where('produk_id', $id)
+            ->where('pengeluaran', '>', 0)
+            ->whereBetween('created_at', [$tanggal_mulai, $tanggal_terakhir])
+            ->orderByDesc('created_at')
+            ->get();
+
         $totalPemasukan = $laporanPemasukan->sum('pemasukan');
         $totalPengeluaran = $laporanPengeluaran->sum('pengeluaran');
+
 
         return view('produk.pemasukan')->with('produk', $produk)->with('laporanPemasukan', $laporanPemasukan)->with('tanggal_mulai', $tanggal_mulai)
             ->with('tanggal_terakhir', $tanggal_terakhir)
@@ -129,6 +138,32 @@ class ProdukController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+    public function laporan(Produk $produk) {
+        $laporanPemasukan = LaporMasukan::where('produk_id', $produk->id)
+            ->where('pemasukan', '>', 0)
+            ->orderByDesc('created_at')
+            ->get();
+
+        $laporanPengeluaran = LaporPengeluaran::where('produk_id', $produk->id)
+            ->where('pengeluaran', '>', 0)
+            ->orderByDesc('created_at')
+            ->get();
+
+        $totalPemasukan = $laporanPemasukan->sum('pemasukan');
+        $totalPengeluaran = $laporanPengeluaran->sum('pengeluaran');
+
+        $pdf = PDF::loadView('produk/laporanproduk', compact('produk',
+        'laporanPengeluaran', 'laporanPemasukan',
+        'totalPengeluaran', 'totalPemasukan'));
+
+        $filename = $produk->nama_barang . '-' . $produk->id . '-' .date('Ymd'). ' Invoices' . '.pdf' ;
+
+        return $pdf->download($filename);
+
+
+    }
+
     public function update(Request $request, $id)
     {
         //
@@ -160,11 +195,13 @@ class ProdukController extends Controller
                 $pengeluaran = new LaporPengeluaran();
                 $pengeluaran->produk_id = $produk->id;
                 $pengeluaran->pengeluaran = $jumlahStokSebelum - $jumlahStokSesudah;
+                $pengeluaran->status = 'Pengurangan Stok Barang';
                 $pengeluaran->save();
             } else {
                 $LaporanPemasukan = new LaporMasukan();
                 $LaporanPemasukan->produk_id = $produk->id;
                 $LaporanPemasukan->pemasukan = $jumlahStokSesudah - $jumlahStokSebelum;
+                $LaporanPemasukan->status = 'Penambahan Stok Barang';
                 $LaporanPemasukan->save();
             }
         }

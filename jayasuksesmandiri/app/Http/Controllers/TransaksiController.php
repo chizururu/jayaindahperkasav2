@@ -21,12 +21,25 @@ class TransaksiController extends Controller
         $tanggal_terakhir = $request->input('tanggal_terakhir');
 
         if ($tanggal_mulai && $tanggal_terakhir) {
+            $tanggal_mulai = date('Y-m-d 00:00:00', strtotime($tanggal_mulai));
+            $tanggal_terakhir = date('Y-m-d 23:59:59', strtotime($tanggal_terakhir));
+        } elseif ($tanggal_mulai) {
+            $tanggal_mulai = date('Y-m-d 00:00:00', strtotime($tanggal_mulai));
+            $tanggal_terakhir = date('Y-m-d 23:59:59', strtotime($tanggal_mulai));
+        } else {
+            $tanggal_mulai = null;
+            $tanggal_terakhir = null;
+        }
+
+        if ($tanggal_mulai && $tanggal_terakhir) {
             $transaksi = Transaksi::whereBetween('created_at', [$tanggal_mulai, $tanggal_terakhir])->get();
         } else {
             $transaksi = Transaksi::all();
         }
 
         return view('transaksi.index', compact('transaksi', 'tanggal_mulai', 'tanggal_terakhir'));
+
+
     }
 
     /**
@@ -80,6 +93,7 @@ class TransaksiController extends Controller
             $LaporanPengeluaran = new LaporPengeluaran();
             $LaporanPengeluaran->pengeluaran = $barang['jumlah'];;
             $LaporanPengeluaran->produk_id = $barang['id'];
+            $LaporanPengeluaran->status = 'Pembelian Barang';
             $LaporanPengeluaran->save();
         };
         return redirect()->route('transaksi.index')->with("info-add", "Order $transaksi->id, $transaksi->nama_pelanggan berhasil ditambahkan");

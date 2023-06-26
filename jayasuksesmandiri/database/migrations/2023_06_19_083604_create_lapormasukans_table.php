@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('lapormasukans', function (Blueprint $table) {
             $table->id();
             $table->integer('pemasukan');
+            $table->string('status');
             $table->timestamps();
         });
     }

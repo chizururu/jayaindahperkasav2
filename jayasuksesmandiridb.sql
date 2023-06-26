@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `detail_transaksis`
 --
 
+use jayasuksesmandiridb;
 CREATE TABLE `detail_transaksis` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `transaksi_id` bigint(20) UNSIGNED NOT NULL,

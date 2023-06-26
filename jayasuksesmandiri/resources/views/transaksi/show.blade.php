@@ -34,7 +34,7 @@
                 <div class="row mb-2">
                     <label for="alamat" class="col-sm-4 col-form-label">Alamat</label>
                     <div class="col-sm-7">
-                        <textarea id="alamat" class="form-control" style="height: 80px" value ="{{ $transaksi->alamat }}" disabled></textarea>
+                        <input id="alamat" class="form-control" style="height: auto" value ="{{ $transaksi->alamat }}" disabled></input>
                     </div>
                 </div>
             </div>

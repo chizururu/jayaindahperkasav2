@@ -7,6 +7,9 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Detail Produk</h5>
+            <div class="d-flex justify-content-end">
+                <a href="{{ url('produk/'. $produk->id. '/laporan') }}" class="btn btn-secondary m-2"><i class="bi bi-file-earmark-pdf"></i><span class="badge badge-secondary">Print Laporan Produk</span></a>
+            </div>
             <!-- Multi Columns Form -->
             @if(session()->has('info-update'))
                 <div class="alert alert-primary alert-dismissible fade show" role="alert">
@@ -136,6 +139,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Tanggal</th>
                             <th scope="col">Pemasukan</th>
+                            <th scope="col">Status</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -144,6 +148,8 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $laporan->created_at }}</td>
                                 <td>{{ $laporan->pemasukan }}</td>
+                                <td>{{ $laporan->status }}</td>
+
                             </tr>
                         @endforeach
                         </tbody>
@@ -164,7 +170,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Tanggal</th>
                             <th scope="col">Pengeluaran</th>
-
+                            <th scope="col">Status</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -173,6 +179,7 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $laporan->created_at }}</td>
                                 <td>{{ $laporan->pengeluaran }}</td>
+                                <td>{{ $laporan->status }}</td>
                             </tr>
                         @endforeach
                         </tbody>

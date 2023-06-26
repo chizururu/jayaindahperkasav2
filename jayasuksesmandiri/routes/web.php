@@ -33,4 +33,5 @@ Route::middleware(['auth', 'status.zero'])->group(function () {
     Route::resource('laporantransaksi', DetailTransaksiController::class);
     Route::resource('pengeluaran', LaporPengeluaranController::class);
     Route::get('transaksi/{transaksi}/invoices', [TransaksiController::class, 'invoices'])->name('transaksi.invoices');
+    Route::get('/produk/{produk}/laporan', [ProdukController::class, 'laporan'])->name('produk.laporan');
 });

@@ -45,6 +45,7 @@ class LapormasukanController extends Controller
         $LaporanPemasukan = new LaporMasukan();
         $LaporanPemasukan->pemasukan = max(0, $validateData['pemasukan']);
         $LaporanPemasukan->produk_id = $validateData['produk_id'];
+        $LaporanPemasukan->status = 'Penambahan Stok Barang';
         $LaporanPemasukan->save();
         /*Menambahkan stok barang setelah menambah jumlah stok barang*/
 

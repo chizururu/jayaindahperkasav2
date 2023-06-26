@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('lapor_pengeluarans', function (Blueprint $table) {
             $table->id();
             $table->integer('pengeluaran');
+            $table->string('status');
             $table->timestamps();
         });
     }
